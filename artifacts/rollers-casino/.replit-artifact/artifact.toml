@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Rollers Casino"
+description = "A responsive web adaptation of the provided Telegram casino bot, with a game lobby, playable demo games, wallet controls, bonuses, activity history, and referral rewards using local demo state."
+version = "1.0.0"
+id = "artifacts/rollers-casino"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 19318
+
+[services.development]
+run = "pnpm --filter @workspace/rollers-casino run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/rollers-casino", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/rollers-casino/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "19318"
+BASE_PATH = "/"
